@@ -1,0 +1,28 @@
+﻿<ion-menu [content]="content">
+    <ion-header>
+        <ion-toolbar color="primary">
+            <ion-title>Shipping Scanner <small style="font-size:9px">v{{AppConstants.APP_VERSION}}</small></ion-title>
+        </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+        <div style="background:#191919" padding>
+            <img src="assets/images/starline-logo-small.png">
+        </div>
+
+        <div padding>
+            <h3 text-center text-uppercase>{{division()}} Division</h3>
+            <h4 text-center>{{employee()}}</h4>
+        </div>
+
+        <ion-list>
+            <button menuClose ion-item *ngFor="let page of pages" [ngClass]="{'icon-rotated': !!page.iconRotated}" (click)="openPage(page)">
+                <ion-icon name="{{page.icon}}" item-left></ion-icon>
+                {{page.title}}
+            </button>
+        </ion-list>
+    </ion-content>
+</ion-menu>
+
+<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

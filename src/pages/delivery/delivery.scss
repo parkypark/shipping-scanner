@@ -1,0 +1,40 @@
+page-delivery-order, page-delivery-loadlist {
+  .not-loaded {
+    background-color: #FF3D00;
+
+    ion-label p {
+      color: #aeaeae;
+    }
+  }
+
+  .return, .onhold {
+      background-color: #FFD600;
+      color: #101010;
+
+      ion-label p {
+        color: #6e6e6e;
+      }
+  }
+}
+
+page-delivery-confirmation {
+  ion-list h6 {
+    margin-left: 16px;
+    margin-top: 32px;
+  }
+
+  .photo-button {
+    display: block;
+    line-height: 3.6rem;
+
+    &.disabled {
+      cursor: default;
+      opacity: .4;
+      pointer-events: none;
+    }
+
+    input {
+      display: none;
+    }
+  }
+}

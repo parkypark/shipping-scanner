@@ -1,0 +1,41 @@
+﻿<ion-header>
+  <app-header title="Transfer Rack"></app-header>
+  <ion-toolbar no-padding>
+      <form (ngSubmit)="onBarcodeEntered(input.barcode)">
+          <ion-item>
+              <ion-label><ion-icon name="barcode"></ion-icon></ion-label>
+              <ion-input name="barcode" [(ngModel)]="input.barcode" placeholder="Barcode..." [clearInput]="true"></ion-input>
+          </ion-item>
+      </form>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <form (ng-submit)="onAcceptClick()">
+    <ion-list>
+      <ion-item>
+        <h3 class="label">Rack Number</h3>
+        <span item-right>{{input.rackNumber}}</span>
+        <p *ngIf="!input.rackNumber">Scan a rack to transfer</p>
+      </ion-item>
+      <section *ngIf="input.rackNumber">
+          <ion-item>
+            <h3 class="label">Current Location</h3>
+            <span item-right>{{bayNumber || 'N/A'}}</span>
+          </ion-item>
+          <ion-item>
+            <h3 class="label">Target Location</h3>
+            <button ion-button item-right (click)="showBayChooser()">{{input.bay || 'Choose'}}</button>
+            <p *ngIf="!input.bay">Select a location</p>
+          </ion-item>
+      </section>
+    </ion-list>
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <button color="secondary" (click)="onAcceptClick()" [attr.disabled]="input.bay && input.bay.bay_number !== bayNumber ? null : true" ion-button block>Accept</button>
+    <button ion-button block color="danger" (click)="onClearClick()" [attr.disabled]="bayNumber ? null : true">Clear</button>
+  </ion-toolbar>
+</ion-footer>

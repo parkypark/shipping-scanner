@@ -1,0 +1,75 @@
+﻿<ion-header>
+    <app-header title="Loading Picklist"></app-header>
+    <ion-toolbar no-padding>
+        <form (ngSubmit)="onBarcodeEntered(input.barcode)">
+            <ion-item>
+                <ion-label><ion-icon name="barcode"></ion-icon></ion-label>
+                <ion-input name="barcode" [(ngModel)]="input.barcode" placeholder="Barcode..." [clearInput]="true"></ion-input>
+            </ion-item>
+        </form>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+        <ion-row>
+            <ion-col col-8><h4>Pick List #{{pickListId}}</h4></ion-col>
+            <ion-col col-4><h4 text-right text-nowrap>{{getCompletion()}}</h4></ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <p *ngIf="isLoading" padding>
+        <ion-icon name="information-circle"></ion-icon>
+        Loading...
+    </p>
+
+    <p *ngIf="!isLoading && !hasData" padding>
+        <ion-icon name="warning"></ion-icon>
+        No data.
+    </p>
+
+    <section *ngIf="hasData">
+        <ion-item-group *ngFor="let rack of pickList">
+            <ion-item-divider color="dark">
+                <p>Rack #{{rack.racknumber === '0' ? 'N/A' : rack.racknumber}}</p>
+                <p>Bay #{{rack.location||'N/A'}}</p>
+                <span item-right>{{getCompletion(rack.racknumber)}}</span>
+            </ion-item-divider>
+            <button [id]="item.barcode" ion-item text-wrap *ngFor="let item of rack.data" (click)="onItemClick(item)"
+                    [ngClass]="{'return': item.productcode === 'R', 'onhold': item.productcode === 'S'}">
+                <h3>
+                    <span style="margin-right:.66em">Order #: {{item.ordernumber}}</span>
+                    <span *ngIf="item.boxnumber < 101">Line #: {{item.linenumber}}</span>
+                    <span *ngIf="item.boxnumber > 100">Frame #: {{item.boxnumber}}</span>
+                </h3>
+                <p>{{item.itemdescription}}</p>
+                <p *ngIf="item.isnotexception === 0 || item.status === 3000" style="color:#FFAB00">{{item.statusdescription}}</p>
+                <p *ngIf="item.boxnumber > 100">
+                    QC Pass:
+                    <span *ngIf="item.qc_pass" style="color:#32db64">Yes</span>
+                    <span *ngIf="!item.qc_pass" style="color:#FFAB00">No</span>
+                </p>
+                <ion-icon *ngIf="item.status >= 1300 && item.status < 1500" name="checkbox" item-right></ion-icon>
+                <ion-icon *ngIf="item.status < 1300 || item.status === 1600 || item.status === 1601" name="square" item-right></ion-icon>
+            </button>
+        </ion-item-group>
+    </section>
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <ion-grid no-padding>
+            <ion-row>
+                <ion-col col-6>
+                    <ion-item class="no-bg no-border">
+                        <ion-label>Tap</ion-label>
+                        <ion-toggle name="tapEnabled" [(ngModel)]="tapEnabled"></ion-toggle>
+                    </ion-item>
+                </ion-col>
+                <ion-col col-6>
+                    <button color="secondary" (click)="onSaveClick()" [attr.disabled]="isSaveEnabled() ? null : true" ion-button block>Save</button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-toolbar>
+</ion-footer>

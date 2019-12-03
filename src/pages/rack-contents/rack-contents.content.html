@@ -1,0 +1,35 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>Rack Contents</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+        <ion-row>
+            <ion-col col-9><h4>Rack #{{rack.racknumber}}</h4></ion-col>
+            <ion-col col-3><h4 text-right text-nowrap>{{rack.data.length}}</h4></ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <p *ngIf="isLoading" padding>
+        <ion-icon name="information-circle"></ion-icon>
+        Loading...
+    </p>
+
+    <p *ngIf="!isLoading && rack.data.length < 1" padding>
+        <ion-icon name="warning"></ion-icon> No glazed or misc items on rack.
+    </p>
+
+    <ion-list *ngIf="!loading && rack.data.length > 0">
+        <ion-item text-wrap *ngFor="let item of rack.data">
+            <h3>
+                <span style="margin-right:.66em">Order #: {{item.ordernumber}}</span>
+                <span *ngIf="item.boxnumber < 101">Line #: {{item.linenumber}}</span>
+                <span *ngIf="item.boxnumber > 100">Frame #: {{item.boxnumber}}</span>
+                <span style="margin-left:.66em">Status: {{item.status}}</span>
+            </h3>
+            <p>{{item.itemdescription}}</p>
+        </ion-item>
+    </ion-list>
+</ion-content>

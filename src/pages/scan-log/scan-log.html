@@ -1,0 +1,30 @@
+﻿<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Scan Log</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngIf="log.length < 1">
+      <ion-icon name="information-circle" item-left></ion-icon>
+      No entries.
+    </ion-item>
+    <ion-item class="scan-log-entry" *ngFor="let entry of log">
+      <section [ngSwitch]="entry.status" item-left>
+        <ion-icon *ngSwitchCase="'ok'" name="checkmark-circle"></ion-icon>
+        <ion-icon *ngSwitchCase="'warning'" name="warning"></ion-icon>
+        <ion-icon *ngSwitchCase="'error'" name="close-circle"></ion-icon>
+      </section>
+      <h4>{{entry.description}}</h4>
+      <p>{{entry.target}}</p>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar text-right>
+    <button (click)="clear()" [attr.disabled]="log.length < 1 ? true : null" ion-button>Clear</button>
+    <button (click)="close()" ion-button>Close</button>
+  </ion-toolbar>
+</ion-footer>

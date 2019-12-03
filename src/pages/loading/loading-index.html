@@ -1,0 +1,16 @@
+﻿<ion-header>
+    <app-header title="Loading"></app-header>
+
+    <ion-toolbar no-padding>
+        <form (ngSubmit)="onBarcodeEntered(input.barcode)">
+            <ion-item>
+                <ion-label><ion-icon name="barcode"></ion-icon></ion-label>
+                <ion-input name="barcode" [(ngModel)]="input.barcode" placeholder="Barcode..." [clearInput]="true"></ion-input>
+            </ion-item>
+        </form>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <p><ion-icon name="information-circle"></ion-icon> Scan a picklist to view or a window or misc item to load</p>
+</ion-content>

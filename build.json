@@ -1,0 +1,18 @@
+{
+    "android": {
+        "debug": {
+            "keystore": "com.starlinewindows.shippingscanner.keystore",
+            "storePassword": "Mintaka5",
+            "alias": "ShippingScanner",
+            "password" : "Mintaka5",
+            "keystoreType": ""
+        },
+        "release": {
+            "keystore": "com.starlinewindows.shippingscanner.keystore",
+            "storePassword": "Mintaka5",
+            "alias": "ShippingScanner",
+            "password" : "Mintaka5",
+            "keystoreType": ""
+        }
+    }
+}

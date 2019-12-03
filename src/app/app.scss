@@ -1,0 +1,38 @@
+﻿.input-md .text-input-clear-icon {
+    background-color: transparent;
+}
+
+ion-item {
+    &.no-border {
+        .item-inner {
+            border: none !important;
+        }
+    }
+    &.no-bg {
+        background: none !important;
+    }
+}
+
+ion-toast {
+    &.error .toast-wrapper {
+        background: #F44336; // red 500
+    }
+    &.success .toast-wrapper {
+        background: #43A047; // green 600
+    }
+    &.warning .toast-wrapper {
+        background: #EF6C00; // orange 800
+    }
+}
+
+modal-authenticate .scroll-content {
+    overflow: hidden;
+}
+
+h3.label {
+    margin: 0 !important;
+}
+
+.icon-rotated ion-icon {
+    transform: rotate(180deg);
+}

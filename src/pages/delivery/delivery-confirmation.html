@@ -1,0 +1,88 @@
+<ion-header>
+    <app-header title="Delivery Confirmation"></app-header>
+</ion-header>
+
+<ion-content>
+    <ion-list style="margin-bottom:50px">
+        <section>
+            <h6>Delivered</h6>
+            <ion-item *ngFor="let item of items">
+                <h3>
+                    <span style="margin-right:.66em">Order #: {{item.ordernumber}}</span>
+                    <span *ngIf="item.boxnumber < 101">Line #: {{item.linenumber}}</span>
+                    <span *ngIf="item.boxnumber > 100">Frame #: {{item.boxnumber}}</span>
+                </h3>
+                <p>{{item.itemdescription}}</p>
+            </ion-item>
+            <ion-item>Total: <span item-right>{{items.length}} / {{this.totalItems}}</span></ion-item>
+        </section>
+
+        <section>
+            <h6>Location</h6>
+            <ion-item><h3>{{getCoordinates()}}</h3></ion-item>
+        </section>
+
+        <section>
+            <h6>Photos</h6>
+            <ion-item *ngFor="let photo of attachedPhotos; let idx = index">
+                <img [src]="photo">
+                <button ion-button item-right color="danger" (click)="onPhotoRemoved(idx)">X</button>
+            </ion-item>
+            <ion-item *ngIf="useHWCamera">
+                <button ion-button block (click)="onTakePhoto()" [disabled]="attachedPhotos.length > 2">Take Photo</button>
+            </ion-item>
+            <ion-item *ngIf="!useHWCamera">
+                <label ion-button class="photo-button button button-md button-default button-default-md button-block button-block-md" [ngClass]="{disabled: attachedPhotos.length > 2}">Take Photo
+                    <input type="file" accept="image/*" capture="camera" [disabled]="attachedPhotos.length > 2" (change)="onPhotoAttached($event)">
+                </label>
+            </ion-item>
+        </section>
+
+        <section>
+            <h6>Comments</h6>
+            <ion-item>
+                <ion-textarea rows="3" [(ngModel)]="comments"></ion-textarea>
+            </ion-item>
+        </section>
+
+        <section>
+            <h6>Receiver Name</h6>
+            <ion-item>
+                <ion-input [(ngModel)]="receiverName" placeholder="Name..."></ion-input>
+            </ion-item>
+
+            <h6>Email Address (for copy of delivery slip)</h6>
+            <ion-item *ngFor="let email of customerEmails; let i = index">
+              {{email}}
+              <button ion-button item-right icon-end color="danger" (click)="onRemoveCustomerEmail(i)">
+                Remove
+                <ion-icon name="remove-circle"></ion-icon>
+              </button>
+            </ion-item>
+            <ion-item>
+                <ion-input type="email" [(ngModel)]="newCustomerEmail" placeholder="Email Address..."></ion-input>
+                <button ion-button item-right icon-end (click)="onAddCustomerEmail()" [disabled]="!newCustomerEmail || newCustomerEmail.length < 3 || !newCustomerEmail.includes('@')">
+                  Add
+                  <ion-icon name="add-circle"></ion-icon>
+                </button>
+            </ion-item>
+        </section>
+
+        <section>
+            <h6>Signature</h6>
+            <ion-item *ngIf="signature">
+                <img [src]="signature" />
+                <button ion-button item-right color="danger" (click)="signature=null">X</button>
+            </ion-item>
+            <ion-item>
+                <button ion-button block (click)="onTakeSignature()">Sign</button>
+            </ion-item>
+        </section>
+    </ion-list>
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <button color="secondary" (click)="onCompleteClick()" [attr.disabled]="isValid() ? null : true" ion-button block>Complete</button>
+    </ion-toolbar>
+</ion-footer>

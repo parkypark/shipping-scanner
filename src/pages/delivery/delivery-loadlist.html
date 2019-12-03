@@ -1,0 +1,63 @@
+﻿<ion-header>
+    <app-header title="Delivery"></app-header>
+    <ion-toolbar no-padding>
+        <form (ngSubmit)="onBarcodeEntered(input.barcode)">
+            <ion-item>
+                <ion-label><ion-icon name="barcode"></ion-icon></ion-label>
+                <ion-input name="barcode" [(ngModel)]="input.barcode" placeholder="Barcode..." [clearInput]="true"></ion-input>
+            </ion-item>
+        </form>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+        <ion-row>
+            <ion-col col-9><h4>Load List #{{loadListId}}</h4></ion-col>
+            <ion-col col-3><h4 text-right text-nowrap>{{getCompletion()}}</h4></ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <p *ngIf="isLoading" padding>
+        <ion-icon name="information-circle"></ion-icon> Loading...
+    </p>
+    <p *ngIf="!isLoading && !hasData" padding>
+        <ion-icon name="warning"></ion-icon> No data.
+    </p>
+
+    <section *ngIf="hasData">
+        <ion-item-group *ngFor="let orderNumber of orderNumbers">
+            <ion-item-divider color="dark">
+                <span>Order #{{orderNumber}}</span>
+                <span item-right>{{getCompletion(orderNumber)}}</span>
+            </ion-item-divider>
+            <button [id]="item.barcode" ion-item text-wrap *ngFor="let item of loadList[orderNumber]" (click)="onItemClick(item)"
+                    [ngClass]="{'not-loaded': !isItemLoaded(item), 'onhold': item.productcode === 'S'}">
+                <h3>
+                    <span style="margin-right:.66em">Order #: {{item.ordernumber}}</span>
+                    <span *ngIf="item.boxnumber < 101">Line #: {{item.linenumber}}</span>
+                    <span *ngIf="item.boxnumber > 100">Frame #: {{item.boxnumber}}</span>
+                </h3>
+                <p>{{item.itemdescription}}</p>
+                <p *ngIf="item.isnotexception === 0" style="color:#FFAB00">{{item.statusdescription}}</p>
+                <ion-icon *ngIf="item.status === 1400" name="checkbox" item-right></ion-icon>
+                <ion-icon *ngIf="item.status !== 1400" name="square" item-right></ion-icon>
+            </button>
+        </ion-item-group>
+    </section>
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <ion-grid>
+            <ion-row>
+                <ion-col no-padding col-6 style="padding-right:5px">
+                    <button (click)="onCheckAllClick()" [attr.disabled]="!(total && total.items > 0) ? true : null" ion-button block>Check All</button>
+                </ion-col>
+                <ion-col no-padding col-6 style="padding-left:5px">
+                    <button color="secondary" (click)="onNextClick()" [attr.disabled]="isNextEnabled() ? null : true" ion-button block>Next</button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-toolbar>
+</ion-footer>

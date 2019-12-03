@@ -1,0 +1,33 @@
+﻿<ion-header>
+  <app-header title="Delivery"></app-header>
+
+  <ion-toolbar no-padding>
+    <form (ngSubmit)="onBarcodeEntered(input.barcode)">
+      <ion-item>
+        <ion-label><ion-icon name="barcode"></ion-icon></ion-label>
+        <ion-input name="barcode" [(ngModel)]="input.barcode" placeholder="Barcode..." [clearInput]="true"></ion-input>
+      </ion-item>
+    </form>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <p padding><ion-icon name="information-circle"></ion-icon> Scan a workorder to view or a window to update status to delivery complete</p>
+
+  <div padding>
+    <h6 ion-text>Download Workorders</h6>
+    <p style="margin-bottom:0"><ion-icon name="information-circle"></ion-icon> Download workorders to the device for scanning offline</p>
+  </div>
+  <ion-list>
+    <button *ngFor="let branch of getBranches()" ion-item (click)="download(branch.code)" [disabled]="!networkMonitorService.isOnline">
+      <ion-icon name="download" item-start></ion-icon>
+      <span>{{branch.name}}</span>
+      <div>
+        <span *ngIf="branch.lastUpdate" ion-text color="secondary">{{branch.lastUpdate|date:'medium'}}</span>
+        <span *ngIf="!branch.lastUpdate" ion-text>No downloaded orders</span>
+      </div>
+      <ion-badge item-end>{{branch.totalOrders}}</ion-badge>
+      <ion-badge color="danger" item-end>{{branch.ordersQueued.length}}</ion-badge>
+    </button>
+  </ion-list>
+</ion-content>

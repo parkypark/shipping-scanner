@@ -1,0 +1,16 @@
+android.json
+com-darryncampbell-cordova-plugin-intent
+cordova-hot-code-push-plugin
+cordova-plugin-camera
+cordova-plugin-compat
+cordova-plugin-console
+cordova-plugin-crosswalk-webview
+cordova-plugin-device
+cordova-plugin-geolocation
+cordova-plugin-network-information
+cordova-plugin-splashscreen
+cordova-plugin-statusbar
+cordova-plugin-vibration
+cordova-plugin-whitelist
+fetch.json
+ionic-plugin-keyboard

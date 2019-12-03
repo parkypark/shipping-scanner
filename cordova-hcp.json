@@ -1,0 +1,7 @@
+{
+  "name": "shipping-scanner",
+  "ios_identifier": "",
+  "android_identifier": "com.starlinewindows.shippingscanner",
+  "update": "now",
+  "content_url": "https://projects.starlinewindows.com/apps/shipping-scanner/update"
+}

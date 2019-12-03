@@ -1,0 +1,16 @@
+<ion-header>
+    <app-header title="Rack Contents"></app-header>
+
+    <ion-toolbar no-padding>
+        <form (ngSubmit)="onBarcodeEntered(input.barcode)">
+            <ion-item>
+                <ion-label><ion-icon name="barcode"></ion-icon></ion-label>
+                <ion-input name="barcode" [(ngModel)]="input.barcode" placeholder="Barcode..." [clearInput]="true"></ion-input>
+            </ion-item>
+        </form>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <p><ion-icon name="information-circle"></ion-icon> Scan a blue rack to view its contents</p>
+</ion-content>

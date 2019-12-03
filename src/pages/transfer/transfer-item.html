@@ -1,0 +1,48 @@
+﻿<ion-header>
+    <app-header title="Transfer Item"></app-header>
+    <ion-toolbar no-padding>
+        <form (ngSubmit)="onBarcodeEntered(input.barcode)">
+            <ion-item>
+                <ion-label><ion-icon name="barcode"></ion-icon></ion-label>
+                <ion-input name="barcode" [(ngModel)]="input.barcode" placeholder="Barcode..." [clearInput]="true"></ion-input>
+            </ion-item>
+        </form>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-item-group>
+        <ion-item-divider color="dark">Destination</ion-item-divider>
+        <ion-item text-wrap>
+            <ion-label>Rack or location</ion-label>
+            <button ion-button item-right (click)="showBayChooser()">{{input.bay || input.racknumber || 'Choose'}}</button>
+        </ion-item>
+        <ion-item text-wrap *ngIf="! (input.bay || input.racknumber)">
+            <ion-icon name="information-circle"></ion-icon> Scan a rack or choose a location to transfer items to
+        </ion-item>
+
+        <ion-item-divider color="dark">
+            Items
+            <span item-right>{{items.length}}</span>
+        </ion-item-divider>
+        <ion-item text-wrap *ngIf="items.length < 1">
+            <ion-icon name="information-circle"></ion-icon> Scan items to transfer to the chosen location
+        </ion-item>
+        <ion-item text-wrap *ngFor="let item of items">
+            <h3>
+                <span style="margin-right:.66em">Order #: {{item.ordernumber}}</span>
+                <span *ngIf="item.boxnumber < 101">Line #: {{item.linenumber}}</span>
+                <span *ngIf="item.boxnumber > 100">Frame #: {{item.boxnumber}}</span>
+            </h3>
+            <p>{{item.itemdescription}}</p>
+            <p *ngIf="item.isnotexception === 0 || item.status === 3000" style="color:#FFAB00">{{item.statusdescription}}</p>
+        </ion-item>
+    </ion-item-group>
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <button color="danger" (click)="onClearClick()" [attr.disabled]="input.racknumber ? null : true" ion-button block>Clear Contents</button>
+        <button color="secondary" (click)="onAcceptClick()" [attr.disabled]="isAcceptEnabled() ? null : true" ion-button block>Accept</button>
+    </ion-toolbar>
+</ion-footer>
